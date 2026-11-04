@@ -5,7 +5,7 @@ Code for:
 > Sarkar, A., Sarkar, S. K., & Haydar, M. (2026). *Reconstruction of Global Groundwater Storage Anomaly from GRACE Satellite Gravimetry Using a Physics-Constrained Decomposition LSTM.* Manuscript under review.
 
 - **Data product (Zenodo):** https://doi.org/10.5281/zenodo.23909628 
-- **This code (Zenodo archive of the v1.0.0 release):** https://doi.org/10.5281/zenodo.YYYYYYY  
+- **This code (Zenodo archive of the v1.0.0 release):** https://doi.org/10.5281/zenodo.23909628  
 
 The pipeline separates groundwater from GRACE/GRACE-FO total water storage (JPL RL06.3Mv04 CRI mascons minus GLDAS Noah v2.1 soil moisture, snow and canopy). It then reconstructs the monthly groundwater storage anomaly (GWSA) on a 0.5° grid for April 2002 – December 2022 with a decomposition LSTM (trend + seasonal + residual). The trend of each cell is bounded by the net atmospheric water supply, and basin-mean trends are held to observation. The pipeline then calibrates amplitude, validates against the GROW monitoring-well compilation, WaterGAP 2.2d and GRACE-SeDA, decomposes the trend uncertainty, and converts the depletion into sea-level and polar-motion terms.
 
