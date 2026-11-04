@@ -42,3 +42,11 @@ D:\my_scripts\6.1_Validation_3.txt,logs/s16_temporal_validation.txt,3779f7d032d2
 D:\my_scripts\7.0 Uncertainty.txt,logs/s17_uncertainty.txt,da4f2efb61c45ce470bcc01aae45d90a2e724be81370d80436ffd67935ae7454
 D:\my_scripts\Phase 9.0 Depletion_Only.txt,logs/s18_depletion_sea_level.txt,fffdd2ff33f581860b163a4f476d3c22de787e1736a3e105e9f79bfe4d60bfcc
 D:\my_scripts\13.0 Polar Motion v2.txt,logs/s19_polar_motion_sea_level.txt,684831576cfe2831e5e8a3d3c3a155799de0dc969bba87a05319ed6a2d81cd7e
+2.0.1 GAP-FILLED CONTINUOUS MONTHLY GWSA PRODUCT.py,scripts/02_gwsa/s03b_gapfill.py
+2.1_WELL TREND COMPUTATION.py,scripts/03_wells/s05a_well_trends_v1.py
+2.1 v2__WELL TREND COMPUTATION.py,scripts/03_wells/s05b_well_trends.py
+2.9a Assemble Predictors_1.py,scripts/04_predictors/s10b_independent_predictors.py
+5.0_v2_PHASE5_ASSEMBLE_MODEL_TENSOR.py,scripts/05_model/s12b_model_tensor.py
+7_1_Sy_Sensitivity_Sweep.py,scripts/07_uncertainty/s17b_sy_sensitivity_sweep.py
+7_2_Sy_ResponseCurve_and_Aggregation.py,scripts/07_uncertainty/s17c_sy_response_curve.py
+"11.0_Figs.py (Phase 11 maps, commented block at the top)",figures/depletion_maps.py

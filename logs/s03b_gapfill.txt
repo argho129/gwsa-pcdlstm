@@ -1,0 +1,103 @@
+==============================================================================
+PHASE 2.0 -- GAP-FILLED CONTINUOUS MONTHLY GWSA
+==============================================================================
+
+==============================================================================
+STEP 1 -- load Phase-1 GWSA
+==============================================================================
+  months 249  (2002-04 .. 2022-12)
+  fully-missing months: 35
+  contiguous gap runs: [2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 2, 1, 2, 1, 11, 2]
+  domain cells: 56,000
+
+==============================================================================
+STEP 2 -- INJECTION TEST: empirical fill uncertainty (not assumed)
+==============================================================================
+  cells sampled: 2,000
+  holding out OBSERVED months (gap months have no truth to test against);
+  error is reported vs distance to nearest retained observation.
+     500/2000 cells
+     1000/2000 cells
+     1500/2000 cells
+     2000/2000 cells
+
+  reference residual sd across injected cells: 2.563 cm
+  reconstruction error over 22,000 held-out cell-months:
+     bias=+0.0191  MAE=3.0288  RMSE=4.6809 cm
+
+  error vs distance from the nearest retained observation:
+   dist(mo)     n      MAE      RMSE     RobSD
+        1    4,000   2.8333   4.3555   2.6142
+        2    3,638   2.9609   4.4927   2.7688
+        3    3,465   2.9821   4.5583   2.8235
+        4    3,510   3.0092   4.6520   2.8172
+        5    3,611   3.0656   4.7428   2.9048
+        6    2,593   3.1676   4.8929   2.9617
+        7      800   3.6237   5.9670   3.4713
+        8      177   3.4048   4.9119   3.3370
+        9       46   3.9901   6.1663   3.8763
+       10       53   4.2656   6.3218   4.7366
+       11       56   3.7265   6.0891   3.3095
+       12       39   5.1100   8.2417   4.5412
+  Robust SD / RMSE(dist) is the uncertainty model applied to filled months.
+
+==============================================================================
+STEP 3 -- decompose and fill every domain cell
+==============================================================================
+  for context: SD of observed monthly GWSA in domain = 12.612 cm
+  max distance to an observed month: 6
+     10,000/56,000 cells
+     20,000/56,000 cells
+     30,000/56,000 cells
+     40,000/56,000 cells
+     50,000/56,000 cells
+  [ OK ]   cells decomposed and filled: 55,364
+  completeness in domain: 98.86%
+  sigma on FILLED months (cm): p50=2.755 p90=5.603 max=8.885
+
+==============================================================================
+STEP 4 -- effect of filling on trends
+==============================================================================
+  cells tested: 4,000
+  median |trend change|: 0.02284 cm/yr
+  p95    |trend change|: 0.12945 cm/yr
+  mean signed change   : +0.00378 cm/yr
+  Trend change caused by filling is summarised above.
+
+==============================================================================
+STEP 5 -- Jasechko aquifer series + event flags
+==============================================================================
+  aquifers rasterised: 1,693
+  [ OK ]   aquifers with >= 4 cells: 313
+  departures |z| >= 2.0: 3,145  (verified, i.e. not gap-driven: 3,126)
+
+  largest VERIFIED departures:
+     2014-06  z=-8.23   -36.69 cm  Southern High Plains
+     2014-06  z=-7.44   -41.15 cm  South-central High Plains
+     2014-06  z=-6.26   -25.41 cm  Seymour-Blaine Aquifer System
+     2011-02  z=-5.74   -11.52 cm  Ivanhoe Plains
+     2011-02  z=-5.56   -15.29 cm  Western Riverine Plains
+     2014-06  z=-5.42   -34.33 cm  Central High Plains
+     2022-04  z=-5.39    -9.99 cm  Lake Frome Embayment
+     2006-08  z=-5.31    -7.44 cm  Southcentral Karoo Basin
+     2006-09  z=-5.31    -7.43 cm  Southcentral Karoo Basin
+     2016-01  z=-5.26   -48.56 cm  Central Littoral Plain
+     2020-06  z=-5.16   -12.12 cm  Chicxulub Sedimentary Basin
+     2002-09  z=-5.15   -14.16 cm  Southeastern Coastal Karoo Basin
+  Events overlapping reconstructed months are marked unverified
+      and must not be interpreted as observed excursions.
+
+==============================================================================
+STEP 6 -- figures
+==============================================================================
+  [ OK ]   fig24_continuous_series
+  [ OK ]   fig25_fill_uncertainty
+  [ OK ]   fig26_trend_perturbation
+  [ OK ]   fig27_fill_uncertainty_map
+
+==============================================================================
+STEP 7 -- write
+==============================================================================
+  [ OK ]   gwsa_monthly_filled.nc
+  [ OK ]   aquifer_series.csv
+  [ OK ]   aquifer_events.csv

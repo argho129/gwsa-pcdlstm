@@ -1,0 +1,76 @@
+==============================================================================
+PHASE 2.1 -- WELL TRENDS  (SAMPLE_MODE=False)
+==============================================================================
+
+==============================================================================
+STEP 0 -- DIAGNOSTIC: where does the Phase-1 +/-100 cm cap bite?
+==============================================================================
+  finite cell-months: 11,847,896   at-cap: 23,773 (0.201%)
+  distinct cells ever capped: 574
+     S of 60S  :      0 capped cells (  0.0%)
+     60S-0     :    140 capped cells ( 24.4%)
+     0-30N     :     94 capped cells ( 16.4%)
+     30-50N    :     79 capped cells ( 13.8%)
+     50-60N    :     21 capped cells (  3.7%)
+     N of 60N  :    240 capped cells ( 41.8%)
+  top-10 most-capped cells:
+     lat= +80.75 lon=  -79.75   210 months capped
+     lat= +80.75 lon=  -79.25   210 months capped
+     lat= +73.75 lon=  -87.25   185 months capped
+     lat= +81.75 lon=  -66.25   179 months capped
+     lat= +81.75 lon=  -66.75   179 months capped
+     lat= +81.25 lon=  -66.25   179 months capped
+     lat= +79.25 lon=  -84.25   174 months capped
+     lat= +79.25 lon=  -85.75   172 months capped
+     lat= +79.25 lon=  -85.25   172 months capped
+     lat= +61.25 lon= -147.75   169 months capped
+  hotspot cap check (capped months at key cells):
+     NW India       : 0 months at cap
+     N China Plain  : 0 months at cap
+     Arabia         : 0 months at cap
+     Central Valley : 0 months at cap
+  0 capped months at the hotspots means the cap only suppresses artifacts.
+  Many capped months at the hotspots would mean the cap clips real signal.
+
+==============================================================================
+STEP 1 -- Sen's slope per well, 2002-2022 (chunked)
+==============================================================================
+  row groups: 35   processing: 35  (SAMPLE_MODE=False)
+  reading columns: ['GROW_ID', 'year', 'groundwater_filled_depth_from_ground_elevation_m', 'groundwater_depth_from_ground_elevation_m', 'groundwater_filled_water_level_elevation_m_asl', 'groundwater_water_level_elevation_m_asl']
+     row group 5/35: wells with slope so far = 120,910
+     row group 10/35: wells with slope so far = 121,627
+     row group 15/35: wells with slope so far = 122,378
+     row group 20/35: wells with slope so far = 123,204
+     row group 25/35: wells with slope so far = 123,936
+     row group 30/35: wells with slope so far = 124,580
+     row group 35/35: wells with slope so far = 125,103
+  [ OK ]   wells with 2002-2022 Sen slope: 125,103
+
+==============================================================================
+STEP 2 -- attach coordinates + specific yield
+==============================================================================
+  merged attributes: 125,103 rows
+  [ OK ]   after QC filter: 79,820 / 125,103
+  |slope| > 5.0 m/yr removed: 32
+  [ OK ]   after physical clip: 79,788 / 79,820
+  [ OK ]   wells with Sy from shapefile: 72,068 / 79,788
+  [WARN]   Sy median-filled for 7,720 wells (Sy=0.060)
+
+==============================================================================
+STEP 3 -- convert water-level trend -> storage trend (cm/yr)
+==============================================================================
+  physical screen |storage trend| > 25.0 cm/yr: 347 wells removed (0.43%)
+  B (2002-2022 period-matched)  n=79,441
+     min=-24.993 p1=-13.261 p50=-0.067 p99=6.904 max=24.896 cm/yr
+  A (GROW full-record)          n=36,344
+     min=-55.111 p1=-16.454 p50=-0.501 p99=8.071 max=36.210 cm/yr
+  A vs B correlation (n=36,344): r = 0.932
+  median B - A = +0.0000 cm/yr
+  Sign check: declining wells are NEGATIVE.
+  fraction of wells with NEGATIVE (declining) storage trend: 55.9%
+
+==============================================================================
+STEP 4 -- write
+==============================================================================
+  [ OK ]   written: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\02_well_trends\well_trends.parquet   rows=79,441
+  columns: ['GROW_ID', 'n_obs', 'yr_first', 'yr_last', 'src_col', 'src_kind', 'slope_wl_m_yr', 'latitude', 'longitude', 'country', 'interval', 'length_years', 'gap_fraction', 'plateaus', 'outliers_change_points', 'negative_signs_wtd', 'trend_slope_m_year-1', 'reference_point', 'aquifer_type_class', 'specific_y', 'sy_imputed', 'slope_storage_cm_yr', 'slopeA_storage_cm_yr']

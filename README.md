@@ -5,7 +5,7 @@ Code for:
 > Sarkar, A., Sarkar, S. K., & Haydar, M. (2026). *Reconstruction of Global Groundwater Storage Anomaly from GRACE Satellite Gravimetry Using a Physics-Constrained Decomposition LSTM.* Manuscript under review.
 
 - **Data product (Zenodo):** https://doi.org/10.5281/zenodo.23909628 
-- **This code (Zenodo archive of the v1.0.0 release):** https://doi.org/10.5281/zenodo.23909628  
+- **This code (Zenodo archive of the v1.0.0 release):** https://doi.org/10.5281/zenodo.YYYYYYY  
 
 The pipeline separates groundwater from GRACE/GRACE-FO total water storage (JPL RL06.3Mv04 CRI mascons minus GLDAS Noah v2.1 soil moisture, snow and canopy). It then reconstructs the monthly groundwater storage anomaly (GWSA) on a 0.5° grid for April 2002 – December 2022 with a decomposition LSTM (trend + seasonal + residual). The trend of each cell is bounded by the net atmospheric water supply, and basin-mean trends are held to observation. The pipeline then calibrates amplitude, validates against the GROW monitoring-well compilation, WaterGAP 2.2d and GRACE-SeDA, decomposes the trend uncertainty, and converts the depletion into sea-level and polar-motion terms.
 
@@ -17,12 +17,12 @@ The pipeline separates groundwater from GRACE/GRACE-FO total water storage (JPL 
 scripts/
   00_qc/            s00  input sanity checks
   01_masks/         s01–s02  permanent-ice and surface-water masks
-  02_gwsa/          s03–s04  GWSA isolation and the TWSA = GWSA + OSA identity
+  02_gwsa/          s03–s04  GWSA isolation, gap-fill (s03b), TWSA = GWSA + OSA identity
   03_wells/         s05–s07  GROW well trends, pairing, suitability classes
   04_predictors/    s08–s12  basin tags, static predictors, dataset assembly, VIF
-  05_model/         s13–s14  physics-constrained LSTM, amplitude calibration + trends
+  05_model/         s12b–s14  model tensor, physics-constrained LSTM, amplitude calibration + trends
   06_validation/    s15–s16  multi-scale trend and temporal validation
-  07_uncertainty/   s17  uncertainty decomposition
+  07_uncertainty/   s17–s18a  uncertainty decomposition, Sy sensitivity, product packaging
   08_consequences/  s18–s19  depletion volumes, sea level, polar motion
 figures/            manuscript figure scripts and shared style (fig_style.py)
 figures/study_area/ Fig. 1 (has its own small fig_style.py)
@@ -30,7 +30,7 @@ logs/               console output of the runs that produced the published numbe
 tools/              release helpers (not part of the analysis)
 ```
 
-Stages marked *not in this release* are intermediate preprocessing steps that are not included in this release; they are available from the corresponding author on request. The final products they feed into are archived in the Zenodo data record. The original file names on the authors' machine are listed in `logs/ORIGINAL_NAMES.csv`, which `tools/make_repo_layout.py` writes. The analysis code is exactly as run; only comments and console message text were tidied for release.
+All pipeline stages are included. One intermediate input is not: OUT/06_validation/grow_inventory.parquet, a per-well table (GROW_ID, sampling interval, first and last observation date) derived from the GROW time series and read by s15 and s16; the script that wrote it was not retained. s10b takes its grid coordinates and land mask from OUT/03_calibrated/gwd_trend_calibrated_v2.nc, an earlier intermediate file on the same 0.5° grid; none of its values enter the predictors. The original file names on the authors' machine are listed in `logs/ORIGINAL_NAMES.csv`, which `tools/make_repo_layout.py` writes. The analysis code is exactly as run; only comments and console message text were tidied for release.
 
 ---
 
@@ -44,25 +44,27 @@ Run the scripts in this order. `OUT` stands for `<ROOT>/OUTPUTS`.
 | s01 | `01_masks/s01_reliability_mask.py` | `OUT/00_reliability_mask/reliability_mask.nc` | §2.3, §3.1 |
 | s02 | `01_masks/s02_surface_water_flag.py` | adds `surface_water` to the mask | §2.3 |
 | s03 | `02_gwsa/s03_gwsa_isolation.py` | `OUT/01_gwsa_monthly/gwsa_monthly.nc` | §2.4, Eqs 1–4 |
-| – | *gap-fill (not in this release)* | `OUT/02_gapfill/gwsa_monthly_filled.nc` | §2.5 |
+| s03b | `02_gwsa/s03b_gapfill.py` | `OUT/02_gapfill/gwsa_monthly_filled.nc` | §2.5 |
 | s04 | `02_gwsa/s04_other_storage_identity.py` | `OUT/05_model_tensor/other_storage_anomaly.nc` | Eq. 5 |
 | s05 | `03_wells/s05_inspect_sy_grow.py` | console only | – |
-| – | *Phase 2.1 well trends (not in this release)* | `OUT/02_well_trends/well_trends*.parquet` | §2.9 |
+| s05a | `03_wells/s05a_well_trends_v1.py` | `OUT/02_well_trends/well_trends.parquet` (read by s06) | §2.9, §3.3 |
+| s05b | `03_wells/s05b_well_trends.py` | `OUT/02_well_trends/well_trends_v2.parquet` (read by s07) | §2.9 |
 | s06 | `03_wells/s06_grace_trends_well_pairing.py` | `grace_cell_trends.nc`, `paired_cells.parquet` | §3.3 |
 | s07 | `03_wells/s07_well_suitability.py` | `well_trends_by_cell.nc`, `well_trends_v2_tiered.parquet` | §3.9 |
 | s08 | `04_predictors/s08_basin_tagging.py` | `OUT/09_ml_diagnostic/cell_basins.parquet` | §2.3 |
 | s09 | `04_predictors/s09_glhymps_rasterizer.py` | `DATA/SOIL_DATA/glhymps_0p5.nc` | §2.2 |
 | s10 | `04_predictors/s10_urban_fraction.py` | `OUT/09_ml_diagnostic/urban_fraction.nc` | §2.2 |
-| – | *static predictors (not in this release)* | `OUT/09_ml_diagnostic/predictors_independent.nc` | §2.2 |
+| s10b | `04_predictors/s10b_independent_predictors.py` | `OUT/09_ml_diagnostic/predictors_independent.nc` | §2.2 |
 | s11 | `04_predictors/s11_dataset_assembler.py` | `OUT/10_model/data/dataset_full.nc` (`SCOPE="prototype"` gives the focus-basin subset) | §2.5 |
 | s12 | `04_predictors/s12_collinearity_check.py` | VIF table | §2.6, §3.5 |
-| – | *model tensor, Phase 5.0 (not in this release)* | `OUT/05_model_tensor/model_ready.nc` | §2.6–2.7 |
+| s12b | `05_model/s12b_model_tensor.py` | `OUT/05_model_tensor/model_ready.nc` | §2.6–2.7 |
 | s13 | `05_model/s13_pcd_lstm_train.py` | `gwsa_reconstructed.nc`, `lstm_state_v4.pt` | §2.7, §3.6, Table 3, Fig. 9 |
 | s14 | `05_model/s14_calibration_trends.py` | `OUT/05_model_tensor/gwsa_final.nc` | §2.8, §3.7 |
 | s15 | `06_validation/s15_multiscale_validation.py` | `OUT/06_validation_final/*_FINAL.csv` | §3.8–3.9, Table 4, Figs 10b–f, 11, 12, A.3 |
 | s16 | `06_validation/s16_temporal_validation.py` | `OUT/06_validation_final/paper_style/` | §3.10, Figs A.4–A.10 |
 | s17 | `07_uncertainty/s17_uncertainty.py` | `OUT/07_uncertainty/gwsa_uncertainty.nc` | §2.10, §3.11, Figs 13, A.11 |
-| – | *Sy sweep and block significance (not in this release)* | Table A.1 | Fig. A.12, Table A.1 |
+| s17b | `07_uncertainty/s17b_sy_sensitivity_sweep.py` | `OUT/07_uncertainty/sy_sensitivity_table.csv` | supports the fixed 0.15 measured-Sy error used in s17c |
+| s17c | `07_uncertainty/s17c_sy_response_curve.py` | `OUT/07_uncertainty/sy_response_curve.csv`, `fig7_05`, `fig7_06` | Table A.1, Fig. A.12 |
 | s18a | `07_uncertainty/s18a_final_product_packaging.py` | `OUT/08_final_product/GWSA_KUET_v1_1D.nc`, `_gridded.nc` | released product |
 | s18 | `08_consequences/s18_depletion_sea_level.py` | `OUT/09_depletion_sle/` | §3.12 |
 | s18b | `08_consequences/s18b_significance_sensitivity.py` | console only | significance-filter sensitivity |
@@ -76,6 +78,7 @@ Run the scripts in this order. `OUT` stands for `<ROOT>/OUTPUTS`.
 | `figures/data_figures.py` | Figs 4, 5, 6, 7, 8a–b, A.1, A.2 |
 | `figures/data_figures_part2.py` | Fig. 8c–f |
 | `figures/manuscript_trend_map.py` | Fig. 10a |
+| fig | `figures/depletion_maps.py` | `OUT/11_maps/fig11_2_globe_views`, `fig11_3_regional_hotspots` (panels) | Fig. 14 |
 | s13 / s15 / s16 / s17 / s19 | Figs 9, 10b–f, 11–13, 15–16, A.3–A.11 |
 
 Figs 2 and 3 are schematic diagrams and have no script.

@@ -1,0 +1,73 @@
+==============================================================================
+PHASE 2.1 v2 -- WELL TRENDS (SAMPLE_MODE=False)
+==============================================================================
+
+==============================================================================
+STEP 1 -- Theil-Sen slope + CI per well, 2002-2022 (chunked)
+==============================================================================
+  row groups: 35  processing: 35  (SAMPLE_MODE=False)
+  MIN_OBS = 3 annual values inside 2002-2022
+  columns read: ['GROW_ID', 'year', 'groundwater_filled_depth_from_ground_elevation_m', 'groundwater_depth_from_ground_elevation_m', 'groundwater_filled_water_level_elevation_m_asl', 'groundwater_water_level_elevation_m_asl']
+     row group 5/35: wells so far = 162,047
+     row group 10/35: wells so far = 163,530
+     row group 15/35: wells so far = 165,158
+     row group 20/35: wells so far = 166,733
+     row group 25/35: wells so far = 168,547
+     row group 30/35: wells so far = 170,005
+     row group 35/35: wells so far = 171,244
+  [ OK ]   wells with a 2002-2022 Theil-Sen slope: 171,244
+  n_obs distribution: p10=4 p50=10 p90=20 max=21
+     wells with n_obs >=  3: 171,244
+     wells with n_obs >=  5: 153,445
+     wells with n_obs >=  8: 125,103
+     wells with n_obs >= 10: 99,153
+     wells with n_obs >= 15: 48,588
+     wells with n_obs >= 20: 17,330
+
+==============================================================================
+STEP 2 -- attributes, QC strata, specific yield
+==============================================================================
+  merged attributes: 171,244
+  QC strata (kept as flags, not filters):
+     qc_len10      :  99,270 pass  ( 58.0%)
+     qc_gap10      : 171,244 pass  (100.0%)
+     qc_interval   : 161,948 pass  ( 94.6%)
+     qc_plateau    : 152,779 pass  ( 89.2%)
+     qc_outlier    : 158,154 pass  ( 92.4%)
+     qc_negsign    : 169,039 pass  ( 98.7%)
+     qc_all        :  82,078 pass  ( 47.9%)
+  physical screen |slope| > 5.0 m/yr: 799 removed
+  confinement reported for 9,495 wells (5.6%); flagged confined: 3,547
+  Sy is a DRAINAGE property of unconfined aquifers; confined wells
+      respond by elastic storativity (orders of magnitude smaller), so
+      applying Sy overestimates their storage change. Reported as stratum.
+  [ OK ]   Sy from shapefile: 155,143 / 170,445
+  [WARN]   Sy median-filled (0.060) for 15,302 wells -- flagged in 'sy_imputed'
+
+==============================================================================
+STEP 3 -- storage trend + trend-reliability metric
+==============================================================================
+  B (period-matched)  n=170,445
+     p1=-21.334 p50=-0.060 p99=+13.978 cm/yr
+  CI width (cm/yr): p25=0.816 p50=2.277 p75=6.715
+  trends RESOLVED (|slope| >= CI half-width): 54,420 (31.9%)
+  'resolved' is a reliability criterion independent of record length;
+      it is the defensible basis for a threshold (not maximising r).
+
+  resolved fraction by record length:
+     n_obs >=  3: n=170,445  resolved= 31.9%  median CI width=2.277
+     n_obs >=  5: n=153,160  resolved= 31.4%  median CI width=2.067
+     n_obs >=  8: n=125,025  resolved= 35.5%  median CI width=1.623
+     n_obs >= 10: n= 99,106  resolved= 38.6%  median CI width=1.352
+     n_obs >= 15: n= 48,570  resolved= 46.5%  median CI width=0.981
+     n_obs >= 20: n= 17,322  resolved= 55.2%  median CI width=0.778
+
+  wells with NEGATIVE (declining) storage trend: 55.0%
+
+==============================================================================
+STEP 4 -- figures
+==============================================================================
+  [ OK ]   fig18_v2_length_vs_reliability
+  [ OK ]   fig19_v2_resolved_distribution
+  [ OK ]   written: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\02_well_trends\well_trends_v2.parquet  rows=170,445
+  columns: ['GROW_ID', 'n_obs', 'yr_first', 'yr_last', 'yr_span', 'src_col', 'src_kind', 'slope_wl_m_yr', 'slope_ci_lo', 'slope_ci_hi', 'slope_mad', 'n_pairs', 'latitude', 'longitude', 'country', 'interval', 'length_years', 'gap_fraction', 'plateaus', 'outliers_change_points', 'negative_signs_wtd', 'trend_slope_m_year-1', 'reference_point', 'aquifer_type_class', 'confinement', 'total_porosity_0-100_m_fraction', 'koeppen_geiger_class', 'main_landuse_class', 'qc_len10', 'qc_gap10', 'qc_interval', 'qc_plateau', 'qc_outlier', 'qc_negsign', 'qc_all', 'is_confined', 'conf_known', 'specific_y', 'sy_imputed', 'slope_storage_cm_yr', 'storage_ci_lo', 'storage_ci_hi', 'ci_width_cm_yr', 'trend_snr', 'trend_resolved', 'slopeA_storage_cm_yr']
