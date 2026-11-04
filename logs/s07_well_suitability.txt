@@ -1,0 +1,129 @@
+"D:\Geospatial Matrix\Urban Expansion\Data\Venv_Python\Scripts\python.exe" "D:\THESIS\Arpon_Thesis_Final\Codes\Into the Models\2.3_WELL_SUITABILITY.py" 
+==============================================================================
+PHASE 2.3 v3 -- MONITORING-NETWORK SUITABILITY CLASSIFICATION
+run: 2026-07-30T07:02:16
+CONFINEMENT_MODE = presumed
+USE_WIDE_AQUIFER_CLASS = False
+==============================================================================
+
+==============================================================================
+STEP 1 -- load Phase 2.1 well trends
+==============================================================================
+  wells: 170,445
+  [ OK ]   required columns present
+
+==============================================================================
+STEP 2 -- confinement and aquifer-class inventory
+==============================================================================
+  confinement value counts:
+     none                                            :  160,950
+     unconfined                                      :    5,948
+     confined                                        :    3,547
+
+  aquifer_type_class value counts:
+     porous                                          :   67,585
+     fractured                                       :   35,671
+     porous/fractured                                :   35,283
+     karst                                           :   20,680
+     none                                            :    6,035
+     water_body                                      :    5,191
+
+  Sy-applicable aquifer classes: ['porous']
+  confinement reported              :    9,495 (5.6%)
+  explicitly confined               :    3,547
+  explicitly unconfined             :    5,948
+  unreported + Sy-applicable class  :   63,820
+  -> mode 'presumed' admits 69,768 wells
+
+==============================================================================
+STEP 3 -- classification funnel (pre-treatment screens only)
+==============================================================================
+     wells with slope and coordinates                  :  170,445  (100.0%)
+     + >= 10 annual values                             :   99,106  ( 58.1%)
+     + record begins by 2010                           :   88,147  ( 51.7%)
+     + record extends to 2015+                         :   66,770  ( 39.2%)
+     + passes GROW quality control                     :   53,551  ( 31.4%)
+     + measured specific yield                         :   48,547  ( 28.5%)
+     + unconfined/Sy-applicable (presumed)             :   18,608  ( 10.9%)
+
+  Statistical significance of the trend is NOT a screen. Filtering on it
+  biases the retained sample toward large magnitudes (STEP 4).
+
+  CLASS TOTALS:
+     Class A (anchor + magnitude  ):   18,608  ( 10.9%)
+     Class B (sign / pattern only ):  134,552  ( 78.9%)
+     Class C (coverage only       ):   17,285  ( 10.1%)
+
+==============================================================================
+STEP 4 -- significance-filtering bias (diagnostic, not applied)
+==============================================================================
+     significant (95% CI excludes 0) n= 10,311  median=-1.0884 cm/yr  neg=71.5%
+     not significant                 n=  8,297  median=-0.0244 cm/yr  neg=53.6%
+     median shift induced by filtering: -1.0641 cm/yr
+
+  This is the quantitative justification for inverse-variance
+      weighting in place of significance filtering. Report it.
+     Class A, unfiltered (used downstream): median=-0.2783 cm/yr  neg=63.5%
+
+  class medians (large separation would indicate outcome-dependent screens):
+     Class A: n= 18,608  median=-0.2783  p10=-4.6748  p90=+1.4485  neg=63.5%
+     Class B: n=134,552  median=-0.0384  p10=-2.9572  p90=+1.8557  neg=53.7%
+     Class C: n= 17,285  median=-0.2379  p10=-10.0881  p90=+6.0640  neg=55.9%
+
+==============================================================================
+STEP 5 -- inverse-variance weights (Hedges & Olkin 1985)
+==============================================================================
+  sigma approximated as CI_width / 3.92 (95% normal interval)
+  w = 1/sigma^2, clipped to +/- 50x median
+  weight range: 0.05928 .. 148.2
+
+==============================================================================
+STEP 6 -- aggregation to 0.5 degree cells
+==============================================================================
+  occupied cells by Class A well count:
+     >=  1 wells:  1,563 cells   ( 2.442% of land)
+     >=  3 wells:    928 cells   ( 1.450% of land)
+     >=  5 wells:    693 cells   ( 1.083% of land)
+     >= 10 wells:    412 cells   ( 0.644% of land)
+     >= 25 wells:    153 cells   ( 0.239% of land)
+     >= 50 wells:     45 cells   ( 0.070% of land)
+  cells with >=1 Class B  :  6,291
+  cells with >=1 any well :  6,794
+
+==============================================================================
+STEP 7 -- spatial representativeness error
+==============================================================================
+  sigma_MAD = 1.4826 x UNWEIGHTED MAD of Class A well trends within a cell.
+  Interpreted as the point-to-pixel representativeness error: the spread
+  a satellite cell average must be reconciled against.
+  cells with >=3 Class A wells: 928
+  unweighted sigma_MAD (cm/yr): p25=0.3453  median=0.9009  p75=2.0184
+  per-cell sigma_MAD/|trend|: p25=0.83  median=1.88  p75=5.10
+  cells where sigma_MAD >= |trend|: 69.7%
+
+  Within-cell spread is comparable to the signal. Any
+      well-satellite correlation is then bounded by the
+      network itself, not by model skill. This is the
+      strongest defence of a moderate correlation.
+
+==============================================================================
+STEP 8 -- write
+==============================================================================
+  [ OK ]   written: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\02_well_trends\well_trends_by_cell.nc
+  [ OK ]   written: well_trends_v2_tiered.parquet
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\02_well_trends\figures\fig2_3_1_network_suitability.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\02_well_trends\figures\fig2_3_1_network_suitability.pdf
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\02_well_trends\figures\fig2_3_2_selection_bias.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\02_well_trends\figures\fig2_3_2_selection_bias.pdf
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\02_well_trends\figures\fig2_3_3_representativeness_ceiling.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\02_well_trends\figures\fig2_3_3_representativeness_ceiling.pdf
+
+==============================================================================
+Diagnostics reported above:
+    1. STEP 2 -- Class A count under the selected aquifer-class setting
+    2. STEP 6 -- weight_dominance written to well_trends_by_cell.nc
+    3. STEP 7 -- unweighted sigma_MAD quantiles
+    4. STEP 7 -- per-cell sigma_MAD / |trend| ratio quantiles
+==============================================================================
+
+Process finished with exit code 0

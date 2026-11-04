@@ -1,0 +1,24 @@
+"D:\Geospatial Matrix\Urban Expansion\Data\Venv_Python\Scripts\python.exe" "D:\THESIS\Arpon_Thesis_Final\Codes\Into the Models\Phase 9.0.py" 
+Variables in file: ['gwsa', 'gwsa_trend', 'trend_ci_lo', 'trend_ci_hi', 'trend_significant', 'sigma_total', 'sigma_obs', 'sigma_model', 'sigma_sy', 'frac_obs', 'frac_model', 'frac_sy', 'dominant', 'snr', 'significant_full', 'tier', 'hybas_l3', 'lat', 'lon']
+Coords in file: ['time', 'cell']
+No 'keep' variable in this file - treating non-null trend/sigma cells as valid (55364 total cells in file).
+Valid cells: 52427 / 55364
+{
+  "n_valid_cells": 52427,
+  "n_depleting_cells": 21632,
+  "gross_depletion_km3_per_yr": 357.64,
+  "gross_depletion_sigma_naive_lowerbound": 1.46,
+  "gross_depletion_sigma_block_correlated": 11.6,
+  "net_storage_change_km3_per_yr": -36.25,
+  "net_storage_sigma_naive_lowerbound": 2.03,
+  "net_storage_sigma_block_correlated": 17.82,
+  "sea_level_equivalent_gross_mm_per_yr": 0.9885,
+  "sea_level_equivalent_gross_sigma_mm_per_yr": 0.0321,
+  "sea_level_equivalent_net_mm_per_yr": 0.1002,
+  "sea_level_equivalent_net_sigma_mm_per_yr": 0.0493,
+  "method_notes": "Gross depletion = sum over cells with significant negative trend only (extent/severity of aquifer loss). Net storage change = sum over ALL valid cells, pos+neg (physically correct quantity for SLE budgets, since recharging cells partly offset depleting ones). Naive sigma assumes independent cell errors -> lower bound only. Block-correlated sigma bins cells at the same 6-deg correlation length used in the Phase 7 Monte Carlo and is a closer (still approximate) estimate. For the rigorous number, replay the saved n_mc=200 trend realizations from Phase 7, if retained, and take the empirical std/CI of total volume across the ensemble."
+}
+
+Saved depletion layer (21632 cells) -> D:\THESIS\Arpon_Thesis_Final\OUTPUTS\09_depletion_sle\depletion_cells.csv
+
+Process finished with exit code 0

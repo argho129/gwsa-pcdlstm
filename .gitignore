@@ -1,0 +1,28 @@
+# data and outputs live on Zenodo, never in git
+DATA/
+OUTPUTS/
+*.nc
+*.nc4
+*.hdf
+*.parquet
+*.pt
+*.gpkg
+*.shp
+*.shx
+*.dbf
+*.prj
+*.cpg
+*.zip
+figures/**/*.png
+figures/**/*.pdf
+_cache/
+# credentials
+.cdsapirc
+.netrc
+.env
+# python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/

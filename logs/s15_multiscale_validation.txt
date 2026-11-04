@@ -1,0 +1,200 @@
+"D:\Geospatial Matrix\Urban Expansion\Data\Venv_Python\Scripts\python.exe" "D:\THESIS\Arpon_Thesis_Final\Codes\Into the Models\6.0_FINAL_Validation.py" 
+==============================================================================
+PHASE 6 FINAL -- MULTI-SCALE VALIDATION & BENCHMARK (v4)
+run 2026-08-07T16:50:09
+==============================================================================
+
+==============================================================================
+LOAD product / grid
+==============================================================================
+  excluded 2937 surface-water cells
+  cells=52427 months=249
+
+==============================================================================
+LOAD WaterGAP (mm->cm, baseline 2004-2009)
+==============================================================================
+  overlap 177 (2002-04..2016-12)
+  [ OK ]   WaterGAP trend done.
+  MINE trend re-matched to WaterGAP's 177-month window (was full 2002-2022 before).
+
+==============================================================================
+LOAD SeDA (mm->cm minus OSA)
+==============================================================================
+  [WARN]   SeDA-implied GWSA subtracts THIS STUDY'S OWN 'osa' -- it is NOT a fully independent check.
+  [WARN]   Treat SeDA as a GRACE-processing consistency check, not independent validation (see OSA-sharing diagnostic below).
+  overlap 178
+  [ OK ]   SeDA-implied GWSA trend done.
+  MINE trend re-matched to SeDA's 178-month window.
+  SeDA trend also re-matched to WaterGAP's 156-month window.
+
+==============================================================================
+OSA-SHARING CIRCULARITY DIAGNOSTIC (MINE vs SeDA both use this study's OSA)
+==============================================================================
+  corr(OSA_trend, MINE_trend)          = -0.210
+  corr(OSA_trend, SeDA-implied_trend)   = -0.201
+  corr(MINE_trend, SeDA-implied_trend)  = +0.410   <- headline MINE-vs-SeDA agreement
+  [ OK ]   OSA trend does not strongly co-vary with both products -- MINE-vs-SeDA agreement is less likely to be an OSA artifact.
+
+==============================================================================
+LOAD wells
+==============================================================================
+  wells with finite lat/lon/slope: 170445/170445
+  [ OK ]   all wells have a finite, positive specific_y on file.
+  [WARN]   545/170445 wells (0.3%) have missing/near-zero ci_width_cm_yr and hit the weight floor -- these get outsized influence in weighted means (wmean/wm). Consider capping weights if this fraction is large.
+  GROW_ID matched to inventory: 170445/170445 (100.0%)
+  YS wells >=8yr: 113591
+  independence[MINE] = This study
+  independence[WGAP] = Independent (physically-based, no GRACE)
+  independence[SEDA] = Quasi-independent -- shares GRACE source AND this study's own OSA subtraction; treat as a consistency check, not proof of accuracy
+
+==============================================================================
+COMPUTE PER-WELL WINDOW-MATCHED PRODUCT TRENDS (exact well t0-t1 per row)
+==============================================================================
+  matched MINE : 94686/113591 wells (>= 24mo overlap with well's own record)
+  matched WGAP : 112442/113591 wells
+  matched SEDA : 94217/113591 wells
+
+==============================================================================
+CELL scale vs wells (window-matched)
+==============================================================================
+  prod   r       RMSE    NSE      sign%   (cells=3388)
+  MINE   +0.307  2.030   -0.004   60.5   
+  WGAP   +0.311  3.409   -2.170   54.7   
+  SEDA   +0.379  2.970   -1.134   57.2   
+
+==============================================================================
+BENCHMARKING BY WELL DENSITY TIER
+==============================================================================
+  Bin 3-5      (n_cells=658 ): MINE=+0.19 WGAP=+0.12 SEDA=+0.21
+  Bin 5-10     (n_cells=791 ): MINE=+0.15 WGAP=+0.25 SEDA=+0.25
+  Bin 10-25    (n_cells=1109): MINE=+0.32 WGAP=+0.36 SEDA=+0.36
+  Bin 25-50    (n_cells=486 ): MINE=+0.57 WGAP=+0.56 SEDA=+0.57
+  Bin >50      (n_cells=344 ): MINE=+0.25 WGAP=+0.27 SEDA=+0.45
+
+==============================================================================
+AQUIFER scale vs wells (window-matched)
+==============================================================================
+  prod   r       CI95            RMSE    NSE      sign%   (aquifers=505)
+  MINE   +0.306  [+0.21,+0.40]   1.940   +0.056   66.0   
+  WGAP   +0.096  [-0.02,+0.24]   3.376   -1.864   55.2   
+  SEDA   +0.131  [+0.03,+0.29]   3.425   -1.944   58.4   
+  [ OK ]   aquifer done.
+  [WARN]   SIGN DISCREPANCY CHECK [aquifer]: 606 well/product sign disagreement(s) found; flipping the well's sign would IMPROVE pooled r for 400 of them -- inspect those specific wells/polygons for a possible sign-convention error before treating the disagreement as genuine hydrology.
+  [ OK ]   sign discrepancy diagnostic -> D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\sign_discrepancy_aquifer.csv
+
+==============================================================================
+BASIN scale (+>=200k km2) vs wells (window-matched)
+==============================================================================
+  prod   r_all    RMSE    r>=200k  n>=200k (basins=72)
+  MINE   +0.342   1.496   +0.370    59     
+  WGAP   +0.013   2.192   +0.007    59     
+  SEDA   +0.291   1.617   +0.309    58     
+  [WARN]   SIGN DISCREPANCY CHECK [basin]: 80 well/product sign disagreement(s) found; flipping the well's sign would IMPROVE pooled r for 63 of them -- inspect those specific wells/polygons for a possible sign-convention error before treating the disagreement as genuine hydrology.
+  [ OK ]   sign discrepancy diagnostic -> D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\sign_discrepancy_basin.csv
+
+==============================================================================
+HOTSPOT VALIDATION -- depletion hotspots (cf. Wang et al. 2025)
+==============================================================================
+  hotspot               n     MINE     WGAP     SEDA     
+  North_China_Plain     13    -0.005   +0.523   +0.470   
+  Central_Valley        68    +0.279   +0.446   +0.509   
+  High_Plains           249   +0.436   +0.591   +0.586   
+  Ganges_Brahmaputra    366   +0.386   +0.624   +0.591   
+  Punjab_Indus          89    +0.440   +0.600   +0.577   
+  POOLED                753   +0.366   +0.579   +0.557   
+  READ: agreement rises at hotspots (large signal, dense wells); cf. Wang 2025 PCC 0.89-0.99.
+  Our GLOBAL 515-aquifer validation is a harder, broader test than hotspot-only.
+  [ OK ]   hotspot csv
+
+==============================================================================
+TEMPORAL VALIDATION -- basin-averaged time series
+==============================================================================
+  (A) product-vs-product basin MONTHLY temporal r:
+    MINE vs WGAP: median temporal r=+0.479 (basins=243)
+    MINE vs SEDA: median temporal r=+0.841 (basins=231)
+    WGAP vs SEDA: median temporal r=+0.451 (basins=231)
+  (C) seasonal phase (peak month) agreement, MINE vs others:
+    MINE vs WGAP: median phase diff=1.0 mo (within 1mo: 63%, n=243)
+    MINE vs SEDA: median phase diff=0.0 mo (within 1mo: 77%, n=231)
+  [ OK ]   temporal csv
+
+==============================================================================
+INTER-PRODUCT DIRECT COMPARISONS (window-matched per pair)
+==============================================================================
+  MINE vs WGAP  (MINE re-windowed to WaterGAP's overlap):
+    Cell    : r=+0.101, sign_match=52.8%
+    Aquifer : r=+0.246, sign_match=58.6%
+    Basin   : r=+0.470, sign_match=59.7%
+  MINE vs SEDA  (MINE re-windowed to SeDA's overlap)  [CAUTION: MINE & SeDA share GRACE + this study's own OSA -- not independent, see diagnostic above]:
+    Cell    : r=+0.414, sign_match=76.2%
+    Aquifer : r=+0.304, sign_match=72.3%
+    Basin   : r=+0.778, sign_match=88.9%
+  WGAP vs SEDA  (SeDA re-windowed to WaterGAP's overlap)  [SeDA side still uses this study's own OSA]:
+    Cell    : r=+0.652, sign_match=54.6%
+    Aquifer : r=+0.962, sign_match=56.8%
+    Basin   : r=+0.569, sign_match=59.7%
+
+==============================================================================
+EXPORT metrics summary
+==============================================================================
+  [ OK ]   written D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\benchmark_metrics_FINAL.csv (45 rows)
+
+  === BENCHMARK METRICS SUMMARY ===
+       scale product      r  RMSE_cm_yr     NSE    bias  sign_pct    n  CI_lo  CI_hi
+        cell    MINE 0.3072      2.0303 -0.0037  0.0164      60.5 2983    NaN    NaN
+        cell    WGAP 0.3115      3.4090 -2.1700 -0.5106      54.7 3379    NaN    NaN
+        cell    SEDA 0.3788      2.9697 -1.1343 -0.2841      57.2 2964    NaN    NaN
+     aquifer    MINE 0.3060      1.9395  0.0563  0.0153      66.0  503  0.210  0.396
+     aquifer    WGAP 0.0955      3.3756 -1.8637 -0.4975      55.2  504 -0.017  0.239
+     aquifer    SEDA 0.1313      3.4255 -1.9437 -0.2886      58.4  503  0.031  0.288
+       basin    MINE 0.3423      1.4955 -0.0022  0.0410      63.9   72    NaN    NaN
+basin_ge200k    MINE 0.3696      1.5645  0.0504  0.0207      62.7   59    NaN    NaN
+       basin    WGAP 0.0131      2.1919 -1.1529 -0.1207      61.1   72    NaN    NaN
+basin_ge200k    WGAP 0.0068      2.3898 -1.2156 -0.2036      61.0   59    NaN    NaN
+       basin    SEDA 0.2915      1.6170 -0.1405 -0.0488      62.9   70    NaN    NaN
+basin_ge200k    SEDA 0.3091      1.7054 -0.1098 -0.1558      65.5   58    NaN    NaN
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_trend_map_a_mlgwsa.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_trend_map_a_mlgwsa.pdf
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_trend_map_b_wgap.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_trend_map_b_wgap.pdf
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_trend_map_c_seda.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_trend_map_c_seda.pdf
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_aquifer_trend_map_a_mlgwsa.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_aquifer_trend_map_a_mlgwsa.pdf
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_aquifer_trend_map_b_wgap.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_aquifer_trend_map_b_wgap.pdf
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_aquifer_trend_map_c_seda.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_aquifer_trend_map_c_seda.pdf
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_basin_trend_map_a_mlgwsa.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_basin_trend_map_a_mlgwsa.pdf
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_basin_trend_map_b_wgap.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_basin_trend_map_b_wgap.pdf
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_basin_trend_map_c_seda.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_basin_trend_map_c_seda.pdf
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_benchmark_bars_density.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_benchmark_bars_density.pdf
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_sign_agreement_bars.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_sign_agreement_bars.pdf
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_aquifer_scatters.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_aquifer_scatters.pdf
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_interproduct_comparison.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_interproduct_comparison.pdf
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_wells_density_map.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_wells_density_map.pdf
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_residual_map_mine.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_residual_map_mine.pdf
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_residual_map_wgap.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_residual_map_wgap.pdf
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_residual_map_seda.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_residual_map_seda.pdf
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_taylor_diagram.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_taylor_diagram.pdf
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_zonal_profile.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_zonal_profile.pdf
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_density_vs_agreement.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\06_validation_final\figures\fig_density_vs_agreement.pdf
+
+  wall 54.2 min
+==============================================================================
+
+Process finished with exit code 0

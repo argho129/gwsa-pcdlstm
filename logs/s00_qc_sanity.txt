@@ -1,0 +1,117 @@
+"D:\Geospatial Matrix\Urban Expansion\Data\Venv_Python\Scripts\python.exe" D:\THESIS\Arpon_Thesis_Final\Codes\0.0_QC_Sanity.py 
+==============================================================================
+PHASE 0 VERIFICATION
+python: 3.11.1
+==============================================================================
+
+==============================================================================
+CHECK 1 -- PET source + SIGN [gates Phase 3 attribution]
+==============================================================================
+  GLEAM_v4 dir: 21 nc files (E_*: 0, Ep_*: 21)
+  [ OK ]   GLEAM Ep present (21 files) -> spec-primary PET available.
+  Climate_data dir: 23 nc files across subfolders.
+  [ OK ]   potential-evap variable(s) found in 21 file(s):
+     Ep_2002_GLEAM_v4.3a_MO.nc :: var='Ep' units='mm.month-1' long_name='Potential evaporation from GLEAM 4.3a'
+     Ep_2003_GLEAM_v4.3a_MO.nc :: var='Ep' units='mm.month-1' long_name='Potential evaporation from GLEAM 4.3a'
+     Ep_2004_GLEAM_v4.3a_MO.nc :: var='Ep' units='mm.month-1' long_name='Potential evaporation from GLEAM 4.3a'
+     Ep_2005_GLEAM_v4.3a_MO.nc :: var='Ep' units='mm.month-1' long_name='Potential evaporation from GLEAM 4.3a'
+     Ep_2006_GLEAM_v4.3a_MO.nc :: var='Ep' units='mm.month-1' long_name='Potential evaporation from GLEAM 4.3a'
+     Ep_2007_GLEAM_v4.3a_MO.nc :: var='Ep' units='mm.month-1' long_name='Potential evaporation from GLEAM 4.3a'
+     Ep_2008_GLEAM_v4.3a_MO.nc :: var='Ep' units='mm.month-1' long_name='Potential evaporation from GLEAM 4.3a'
+     Ep_2009_GLEAM_v4.3a_MO.nc :: var='Ep' units='mm.month-1' long_name='Potential evaporation from GLEAM 4.3a'
+     Ep_2010_GLEAM_v4.3a_MO.nc :: var='Ep' units='mm.month-1' long_name='Potential evaporation from GLEAM 4.3a'
+     Ep_2011_GLEAM_v4.3a_MO.nc :: var='Ep' units='mm.month-1' long_name='Potential evaporation from GLEAM 4.3a'
+     Ep_2012_GLEAM_v4.3a_MO.nc :: var='Ep' units='mm.month-1' long_name='Potential evaporation from GLEAM 4.3a'
+     Ep_2013_GLEAM_v4.3a_MO.nc :: var='Ep' units='mm.month-1' long_name='Potential evaporation from GLEAM 4.3a'
+     Ep_2014_GLEAM_v4.3a_MO.nc :: var='Ep' units='mm.month-1' long_name='Potential evaporation from GLEAM 4.3a'
+     Ep_2015_GLEAM_v4.3a_MO.nc :: var='Ep' units='mm.month-1' long_name='Potential evaporation from GLEAM 4.3a'
+     Ep_2016_GLEAM_v4.3a_MO.nc :: var='Ep' units='mm.month-1' long_name='Potential evaporation from GLEAM 4.3a'
+     Ep_2017_GLEAM_v4.3a_MO.nc :: var='Ep' units='mm.month-1' long_name='Potential evaporation from GLEAM 4.3a'
+     Ep_2018_GLEAM_v4.3a_MO.nc :: var='Ep' units='mm.month-1' long_name='Potential evaporation from GLEAM 4.3a'
+     Ep_2019_GLEAM_v4.3a_MO.nc :: var='Ep' units='mm.month-1' long_name='Potential evaporation from GLEAM 4.3a'
+     Ep_2020_GLEAM_v4.3a_MO.nc :: var='Ep' units='mm.month-1' long_name='Potential evaporation from GLEAM 4.3a'
+     Ep_2021_GLEAM_v4.3a_MO.nc :: var='Ep' units='mm.month-1' long_name='Potential evaporation from GLEAM 4.3a'
+     Ep_2022_GLEAM_v4.3a_MO.nc :: var='Ep' units='mm.month-1' long_name='Potential evaporation from GLEAM 4.3a'
+
+  --> sign test on: Ep_2002_GLEAM_v4.3a_MO.nc :: 'Ep'
+     min=-69.36 max=574.7 mean=61.21 |max|=574.7
+     fraction < 0 : 0.4%
+  [ OK ]   PET stored POSITIVE (demand).  ACTION: PET = value  (as-is)
+  [ OK ]   |max|=574.7 plausible mm-scale.
+
+==============================================================================
+CHECK 2 -- WHYMAP HYGEO2 digit coding [gates Discovery 1 + pooling]
+==============================================================================
+  shapefiles under D:\THESIS\Arpon_Thesis_Final\DATA\WHYMAP: ['whymap_cities_dependGW_v1_point.shp', 'whymap_GWdis_arid_v1_point.shp', 'whymap_GW_aquifers_v1_poly.shp', 'whymap_icesheets__v1_poly.shp', 'whymap_lowRainfall__v1_poly.shp', 'whymap_overexploit__v1_point.shp', 'whymap_permafrost__v1_line.shp', 'whymap_rivers__v1_line.shp', 'whymap_salineGW__v1_poly.shp', 'whymap_waterbodies__v1_poly.shp', 'whymap_wetlands__v1_point.shp']
+  [ OK ]   using: whymap_GW_aquifers_v1_poly.shp
+  polygons: 3424   CRS: EPSG:4326
+  columns: ['HYGEO2', 'ICE', 'CONTINENT', 'geometry']
+  [ OK ]   class column: 'HYGEO2'  dtype=int32
+  distinct value counts:
+                 11 : 86
+                 12 : 163
+                 13 : 172
+                 14 : 268
+                 15 : 186
+                 22 : 163
+                 23 : 239
+                 24 : 352
+                 25 : 168
+                 33 : 803
+                 34 : 691
+                 88 : 133
+  [WARN]   no text label column - confirm digit->class vs bundled legend PDF manually.
+  leading digits present: ['1', '2', '3', '8']
+  [ OK ]   all leading digits within spec map {1,2,3,8}.
+
+  NOTE: structural read OK. SEMANTIC digit->class confirm vs legend is
+        manual step - check the value counts against the WHYMAP legend.
+
+==============================================================================
+CHECK 3 -- GROW QC-passed well COUNT [calibration strength]
+==============================================================================
+  parquet files under D:\THESIS\Arpon_Thesis_Final\DATA: 2
+     GROW\grow_attributes.parquet
+     GROW\grow_timeseries.parquet
+  [ OK ]   using: GROW\grow_attributes.parquet
+  rows: 204292   cols (54): ['GROW_ID', 'original_ID_groundwater', 'name', 'feature_type', 'purpose', 'status', 'description', 'latitude', 'longitude', 'provider_ground_elevation_m_asl', 'top_of_well_elevation_m_asl', 'total_drilling_depth_m', 'country', 'address', 'aquifer_name', 'confinement', 'organisation', 'manager', 'license', 'interval', 'aggregated_from_n_values_median', 'starting_date', 'ending_date', 'length_years', 'autocorrelation', 'gap_fraction', 'negative_signs_wtd', 'outliers_change_points', 'plateaus', 'trend_direction', 'trend_slope_m_year-1', 'reference_point', 'groundwater_mean_m', 'groundwater_median_m', 'koeppen_geiger_class', 'hydrobelt_class', 'ground_elevation_merit_m_asl', 'topographic_slope_degree', 'rock_type_0-100_m_class', 'aquifer_type_class', 'permeability_0-100_m_m-2', 'total_porosity_0-100_m_fraction', 'soil_texture_0-30_cm_class', 'soil_texture_30-200_cm_class', 'soil_saturated_conductivity_0-30_cm_cm_d-1', 'soil_saturated_conductivity_30-200_cm_cm_d-1', 'distance_perennial_streams_m', 'drainage_density_m-1', 'glacier_cover_fraction', 'permafrost_cover_fraction', 'days_with_snow_cover_average_days_year-1', 'groundwater_dependent_ecosystems_class', 'main_landuse_class', 'groundwaterscapes_ID_class']
+  [ OK ]   length_years             -> length_years
+  [ OK ]   gap_fraction             -> gap_fraction
+  [ OK ]   interval                 -> interval
+  [ OK ]   plateaus                 -> plateaus
+  [ OK ]   outliers_change_points   -> outliers_change_points
+  [ OK ]   negative_signs_wtd       -> negative_signs_wtd
+  [ OK ]   trend_slope              -> trend_slope_m_year-1
+  [ OK ]   trend_direction          -> trend_direction
+
+  applying calibration filter:
+     length_years >= 10                       kept  104806 /  204292 (-99486)
+     gap_fraction <= 0.1                      kept  104806 /  104806 (-0)
+     interval in {'YS', 'MS'}                 kept  101790 /  104806 (-3016)
+     plateaus == False                        kept   94070 /  101790 (-7720)
+     outliers_change_points == False          kept   87559 /   94070 (-6511)
+     negative_signs_wtd not in {'All', 'Some'} kept   86403 /   87559 (-1156)
+
+  QC-PASSED WELLS: 86403  (42.3% of 204292)
+  of QC-passed, non-null trend_slope: 40342
+  trend_direction (QC-passed):
+     trend_direction
+     no trend      46061
+     decreasing    26851
+     increasing    13491
+  [ OK ]   calibration: STRONG branch plausible (86403).
+
+==============================================================================
+PHASE 0 SUMMARY
+==============================================================================
+  CHECK1_pet      : PASS
+  CHECK2_whymap   : PASS
+  CHECK3_grow     : PASS
+  PET sign         : POSITIVE_asis
+  GROW QC count    : 86403
+
+==============================================================================
+All checks passed.
+==============================================================================
+
+Process finished with exit code 0

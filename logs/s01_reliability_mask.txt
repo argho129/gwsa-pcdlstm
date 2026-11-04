@@ -1,0 +1,107 @@
+"D:\Geospatial Matrix\Urban Expansion\Data\Venv_Python\Scripts\python.exe" D:\THESIS\Arpon_Thesis_Final\Codes\0.5_Build_Reliability_Mask.py 
+==============================================================================
+RELIABILITY MASK v5 (rasterized RGI, fast)
+==============================================================================
+
+==============================================================================
+STEP 1 -- SWE-persistence
+==============================================================================
+  GLDAS files: 252
+  [ OK ]   SWE max=9996.3 cells>= 300.0: 451
+
+==============================================================================
+STEP 2 -- land (ETOPO)
+==============================================================================
+
+==============================================================================
+STEP 3 -- RGI glaciers (from cache, rasterized)
+==============================================================================
+  [ OK ]   RGI loaded from cache: 213750 outlines
+  [ OK ]   RGI glaciers: 4620 cells
+
+==============================================================================
+STEP 4 -- WHYMAP icesheet (land-clipped)
+==============================================================================
+  [ OK ]   WHYMAP icesheet: 27682 cells
+
+==============================================================================
+STEP 5 -- combine + sanity
+==============================================================================
+  SWE:451  RGI:4620  icesheet:27682
+     High Mountain Asia    :  672  (expect HIGH now)
+     Alaska/Yukon          :  250  (expect HIGH)
+     Andes (S)             :  182  (expect some)
+     Indo-Gangetic plain   :   47  (expect ~0)
+     North China Plain     :    0  (expect ~0)
+     Canadian prairies     :    0  (expect ~0)
+
+  permanent-ice total: 31048 (31.38% land)
+
+==============================================================================
+STEP 6 -- write
+==============================================================================
+  [ OK ]   written: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\00_reliability_mask\reliability_mask.nc
+  [ OK ]   figure: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\00_reliability_mask\reliability_mask_diagnostic.png
+
+==============================================================================
+Run complete.
+==============================================================================
+
+==============================================================================
+DIAGNOSTIC -- locate IGP-flagged cells + true GRACE-domain fraction
+==============================================================================
+  IGP-box flagged cells (lat, lon):
+     lat=27.75  lon=86.25
+     lat=27.75  lon=86.75
+     lat=27.75  lon=87.25
+     lat=27.75  lon=87.75
+     lat=28.25  lon=83.75
+     lat=28.25  lon=84.25
+     lat=28.25  lon=84.75
+     lat=28.25  lon=85.25
+     lat=28.25  lon=85.75
+     lat=28.25  lon=86.25
+     lat=28.25  lon=86.75
+     lat=28.25  lon=87.25
+     lat=28.25  lon=87.75
+     lat=28.75  lon=82.25
+     lat=28.75  lon=82.75
+     lat=28.75  lon=83.25
+     lat=28.75  lon=83.75
+     lat=28.75  lon=84.25
+     lat=28.75  lon=84.75
+     lat=28.75  lon=85.25
+     lat=28.75  lon=85.75
+     lat=28.75  lon=86.25
+     lat=28.75  lon=87.25
+     lat=28.75  lon=87.75
+     lat=29.25  lon=82.25
+     lat=29.25  lon=82.75
+     lat=29.25  lon=83.25
+     lat=29.25  lon=83.75
+     lat=29.25  lon=84.25
+     lat=29.25  lon=84.75
+     lat=29.25  lon=85.25
+     lat=29.25  lon=86.25
+     lat=29.25  lon=87.25
+     lat=29.75  lon=80.75
+     lat=29.75  lon=81.25
+     lat=29.75  lon=81.75
+     lat=29.75  lon=82.25
+     lat=29.75  lon=82.75
+     lat=29.75  lon=83.25
+     lat=29.75  lon=84.25
+     lat=29.75  lon=84.75
+     lat=29.75  lon=85.25
+     lat=29.75  lon=85.75
+     lat=29.75  lon=86.25
+     lat=29.75  lon=86.75
+     lat=29.75  lon=87.25
+     lat=29.75  lon=87.75
+
+  land cells (elev>-100)          : 98956
+  TRUE GRACE-domain cells         : 69464
+  permanent-ice within GRACE domain: 3366 (4.85% of GRACE domain)
+  ^ THIS percentage is the real cost of the ice mask, not the 31%.
+
+Process finished with exit code 0

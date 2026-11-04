@@ -1,0 +1,148 @@
+"D:\Geospatial Matrix\Urban Expansion\Data\Venv_Python\Scripts\python.exe" "D:\THESIS\Arpon_Thesis_Final\Codes\Into the Models\5.1 MODEL_v4.py" 
+==============================================================================
+PHASE 5.1 v4 -- BASIN-CONSERVING PHYSICS LSTM + WEIGHT SWEEP
+run: 2026-08-07T00:06:39  seed=20260730
+==============================================================================
+  torch 2.7.1+cpu  threads=6  cpu
+
+==============================================================================
+STEP 1 -- load tensor
+==============================================================================
+  excluded 2937 surface-water cells; kept 52427
+  cells=55364 kept=52427 months=249 dyn=['NetFlux', 'E', 't2m', 'ndvi', 'sm']
+
+==============================================================================
+STEP 2 -- splits
+==============================================================================
+  train/val/test=150/32/32
+
+==============================================================================
+STEP 3 -- supply bound (structural)
+==============================================================================
+  supply bound cm/yr: median=8.33 p95=35.62
+
+==============================================================================
+STEP 4 -- tensors + basin index (full-domain)
+==============================================================================
+  basins with conservation target: 233
+
+==============================================================================
+STEP 5 -- model
+==============================================================================
+
+==============================================================================
+STEP 6 -- WEIGHT SENSITIVITY SWEEP (short arms)
+==============================================================================
+
+  --- arm 'sweep W_BASIN=0.0' (W_BASIN=0.0, epochs=45) ---
+     ep 001 data=431.385 basin=0.0000 val=124.235
+     ep 002 data=123.525 basin=0.0000 val=112.957
+     ep 003 data=116.699 basin=0.0000 val=107.753
+     ep 010 data=105.195 basin=0.0000 val=100.692
+     ep 020 data=95.472 basin=0.0000 val=89.516
+     ep 030 data=87.140 basin=0.0000 val=83.736
+     ep 040 data=81.803 basin=0.0000 val=76.721
+   -> W_BASIN=0.0: RMSE=9.006 NSE=+0.490 KGE=-0.002 drift=28.8% basin-closure RMSE=0.5285 cm/yr
+
+  --- arm 'sweep W_BASIN=0.1' (W_BASIN=0.1, epochs=45) ---
+     ep 001 data=443.146 basin=0.0797 val=125.572
+     ep 002 data=124.516 basin=0.0748 val=112.505
+     ep 003 data=117.953 basin=0.0749 val=107.966
+     ep 010 data=104.986 basin=0.0731 val=98.822
+     ep 020 data=94.441 basin=0.0735 val=89.823
+     ep 030 data=85.754 basin=0.0759 val=81.244
+     ep 040 data=79.497 basin=0.0767 val=79.644
+   -> W_BASIN=0.1: RMSE=8.999 NSE=+0.491 KGE=-0.081 drift=28.6% basin-closure RMSE=0.5098 cm/yr
+
+  --- arm 'sweep W_BASIN=0.25' (W_BASIN=0.25, epochs=45) ---
+     ep 001 data=456.276 basin=0.2065 val=124.446
+     ep 002 data=123.761 basin=0.1898 val=111.849
+     ep 003 data=117.656 basin=0.1916 val=110.378
+     ep 010 data=105.059 basin=0.1782 val=99.916
+     ep 020 data=95.578 basin=0.1842 val=92.143
+     ep 030 data=88.460 basin=0.1863 val=84.364
+     ep 040 data=83.530 basin=0.1945 val=78.262
+   -> W_BASIN=0.25: RMSE=9.085 NSE=+0.481 KGE=-0.890 drift=30.7% basin-closure RMSE=0.5046 cm/yr
+
+  --- arm 'sweep W_BASIN=0.5' (W_BASIN=0.5, epochs=45) ---
+     ep 001 data=451.595 basin=0.4100 val=140.433
+     ep 002 data=133.246 basin=0.3835 val=116.526
+     ep 003 data=120.123 basin=0.3638 val=110.129
+     ep 010 data=105.872 basin=0.3770 val=99.776
+     ep 020 data=93.184 basin=0.3759 val=88.605
+     ep 030 data=85.034 basin=0.3769 val=85.169
+     ep 040 data=79.323 basin=0.3820 val=74.478
+   -> W_BASIN=0.5: RMSE=8.789 NSE=+0.515 KGE=+0.515 drift=26.7% basin-closure RMSE=0.4172 cm/yr
+
+  --- arm 'sweep W_BASIN=1.0' (W_BASIN=1.0, epochs=45) ---
+     ep 001 data=437.982 basin=0.8292 val=125.148
+     ep 002 data=123.617 basin=0.7737 val=112.379
+     ep 003 data=117.070 basin=0.7395 val=108.243
+     ep 010 data=103.907 basin=0.7459 val=97.710
+     ep 020 data=92.946 basin=0.7656 val=88.850
+     ep 030 data=86.606 basin=0.7664 val=83.965
+     ep 040 data=80.697 basin=0.7527 val=80.061
+   -> W_BASIN=1.0: RMSE=8.993 NSE=+0.492 KGE=-1.417 drift=29.0% basin-closure RMSE=0.4793 cm/yr
+
+  SWEEP SUMMARY:
+  W_BASIN  RMSE    NSE     KGE     drift%  basinRMSE 
+  0.0      9.006   +0.490  -0.002  28.8    0.5285    
+  0.1      8.999   +0.491  -0.081  28.6    0.5098    
+  0.25     9.085   +0.481  -0.890  30.7    0.5046    
+  0.5      8.789   +0.515  +0.515  26.7    0.4172    
+  1.0      8.993   +0.492  -1.417  29.0    0.4793    
+  -> chosen W_BASIN=0.5 (best basin closure among skill-preserving configs)
+
+==============================================================================
+STEP 7 -- FINAL converged training at chosen weight
+==============================================================================
+
+  --- arm 'FINAL W_BASIN=0.5' (W_BASIN=0.5, epochs=120) ---
+     ep 001 data=444.326 basin=0.4239 val=127.674
+     ep 002 data=125.204 basin=0.3990 val=112.778
+     ep 003 data=117.232 basin=0.3706 val=107.704
+     ep 010 data=104.718 basin=0.3659 val=98.675
+     ep 020 data=94.053 basin=0.3624 val=89.788
+     ep 030 data=85.595 basin=0.3711 val=80.968
+     ep 040 data=79.620 basin=0.3858 val=77.292
+     ep 050 data=75.763 basin=0.3865 val=73.210
+     ep 060 data=73.691 basin=0.3775 val=71.302
+     ep 070 data=70.147 basin=0.3763 val=68.912
+     ep 080 data=66.522 basin=0.3766 val=65.152
+     ep 090 data=64.814 basin=0.3835 val=63.552
+     ep 100 data=62.767 basin=0.3809 val=62.245
+     ep 110 data=61.842 basin=0.3873 val=60.173
+     ep 120 data=59.228 basin=0.3835 val=58.224
+  FINAL: RMSE=7.886 NSE=+0.609 KGE=-0.763 (beta=-0.74 gamma=0.78) drift=22.5% basin-closure=0.2796 cm/yr
+  (KGE here is PRE-calibration; Phase 5.2 variance-matching lifts it.)
+
+==============================================================================
+STEP 8 -- ALL-PREDICTOR permutation importance
+==============================================================================
+     NetFlux (dyn)       : +7.5932 cm
+     t2m (dyn)           : +5.3712 cm
+     ndvi (dyn)          : +3.6319 cm
+     E (dyn)             : +3.4159 cm
+     sm (dyn)            : +3.2168 cm
+     elevation (sta)     : +2.5837 cm
+     logk_ferr (sta)     : +1.1092 cm
+     aeigw (sta)         : +0.9357 cm
+     slope (sta)         : +0.8385 cm
+     porosity (sta)      : +0.6131 cm
+     aei (sta)           : +0.4787 cm
+     urban_frac_mean (sta): +0.0861 cm
+
+==============================================================================
+STEP 9 -- write reconstruction (best converged)
+==============================================================================
+  [ OK ]   written: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\05_model_tensor\gwsa_reconstructed.nc (130 MB)
+  [ OK ]   fig5_1_v4_sensitivity
+  [ OK ]   fig5_1_v4_performance
+  [ OK ]   fig5_1_v4_trend_map
+
+  wall time: 156.2 min
+==============================================================================
+Run complete.
+==============================================================================
+
+Process finished with exit code 0

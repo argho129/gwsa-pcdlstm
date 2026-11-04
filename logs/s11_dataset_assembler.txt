@@ -1,0 +1,76 @@
+"D:\Geospatial Matrix\Urban Expansion\Data\Venv_Python\Scripts\python.exe" "D:\THESIS\Arpon_Thesis_Final\Codes\Into the Models\Dataset_Assembler_Full.py" 
+
+==========================================================================
+0. TARGET GRID + TIMELINE (from gap-filled GWSA)
+==========================================================================
+  grid 360x720, T=249, 2002-04-15..2022-12-15
+  FIX2 GWSA re-clip: 1722 values were |>100| -> clipped to +/-100
+
+==========================================================================
+1. SELECT CELLS  (scope=full)
+==========================================================================
+  cells selected: 55364
+  focus breakdown:
+focus_name
+                   53067
+HighPlains          1372
+Bengal_GBM           425
+Punjab_Indus         203
+CentralValley        156
+NorthChinaPlain      141
+
+==========================================================================
+2. BUILD MONTHLY STACKS (extract each, free immediately)
+==========================================================================
+  P (ERA5-Land tp)...
+  R (ERA5-Land ro)...
+  SM (ERA5-Land swvl1)...
+  E (GLEAM)...
+  t2m (ERA5)...
+  NDVI (MODIS) + climatological fill...
+  NDVI filled; residual NaN after climatology: 48254176
+  monthly stacks done (global arrays freed).
+
+==========================================================================
+3. STATIC COVARIATES
+==========================================================================
+  FIX4 aeigw: filled 230784 NaN cells where aei==0
+  FIX3 GLHYMPS loaded: logk_ferr, porosity
+  static covariates: ['elevation', 'slope', 'aei', 'aeigw', 'urban_frac_mean', 'logk_ferr', 'porosity', 'lat', 'lon']
+  FIX6 reliability mask loaded from 'exclude_tier1'
+
+==========================================================================
+4. CONSTRUCT DATASET
+==========================================================================
+
+==========================================================================
+5. SANITY REPORT
+==========================================================================
+  dataset dims: T=249, cells=55364
+  P    : cover=100.0%  min=0.010 med=35.850 max=3325.111
+  E    : cover=100.0%  min=-2.170 med=30.342 max=232.842
+  R    : cover=100.0%  min=0.000 med=5.184 max=3266.391
+  t2m  : cover=100.0%  min=223.029 med=288.798 max=315.321
+  ndvi : cover= 97.7%  min=-0.200 med=0.413 max=0.991
+  sm   : cover=100.0%  min=-0.000 med=0.291 max=0.753
+  gwsa : cover=100.0%  min=-100.000 med=-0.231 max=100.000
+  logk_ferr     : cover=100.0%  finite-min=-16.500 med=-12.302 max=-4.207
+  porosity      : cover=100.0%  finite-min=0.000 med=0.017 max=0.270
+  aeigw         : cover=100.0%  finite-min=0.000 med=0.000 max=100.000
+  exclude_tier1 : cover=100.0%  finite-min=0.000 med=0.000 max=0.000
+  ndvi_observed : cover=100.0%  finite-min=0.000 med=1.000 max=1.000
+  is_filled fraction:     0.141
+  ndvi_observed fraction: 0.895
+  exclude_tier1 cells:    0/55364
+
+==========================================================================
+6. WRITE
+==========================================================================
+  written: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\10_model\data\dataset_full.nc
+  size MB: 286.7
+
+==========================================================================
+ASSEMBLER COMPLETE (scope=full)
+==========================================================================
+
+Process finished with exit code 0

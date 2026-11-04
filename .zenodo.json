@@ -1,0 +1,12 @@
+{
+  "title": "Code for: Reconstruction of Global Groundwater Storage Anomaly from GRACE Satellite Gravimetry Using a Physics-Constrained Decomposition LSTM",
+  "upload_type": "software",
+  "description": "Python pipeline that isolates groundwater from GRACE/GRACE-FO total water storage, reconstructs monthly 0.5-degree groundwater storage anomalies (April 2002 to December 2022) with a physics-constrained decomposition LSTM, validates them against the GROW well network, WaterGAP 2.2d and GRACE-SeDA, decomposes trend uncertainty, and derives sea-level and polar-motion consequences.",
+  "license": "MIT",
+  "keywords": ["groundwater depletion", "GRACE", "physics-constrained deep learning", "LSTM", "specific yield", "polar motion"],
+  "creators": [
+    {"name": "Sarkar, Arpon", "affiliation": "Khulna University of Engineering & Technology (KUET)", "orcid": "0009-0006-1722-4782"},
+    {"name": "Sarkar, Showmitra Kumar", "affiliation": "Khulna University of Engineering & Technology (KUET)", "orcid": "0000-0001-5928-7577"},
+    {"name": "Haydar, Mafrid", "affiliation": "Khulna University of Engineering & Technology (KUET)", "orcid": "0009-0003-9229-0171"}
+  ]
+}

@@ -1,0 +1,42 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the article and this software archive."
+title: "Global groundwater storage anomaly reconstruction with a physics-constrained decomposition LSTM"
+version: 1.0.0
+date-released: 2026-11-05
+license: MIT
+repository-code: "https://github.com/argho129/gwsa-pcdlstm"
+keywords:
+  - groundwater depletion
+  - GRACE
+  - physics-constrained deep learning
+  - LSTM
+  - polar motion
+authors:
+  - family-names: Sarkar
+    given-names: Arpon
+    affiliation: "Department of Urban and Regional Planning, Khulna University of Engineering & Technology (KUET), Bangladesh"
+    orcid: "https://orcid.org/0009-0006-1722-4782"
+    email: arghosarkar79@gmail.com
+  - family-names: Sarkar
+    given-names: Showmitra Kumar
+    affiliation: "Department of Urban and Regional Planning, Khulna University of Engineering & Technology (KUET), Bangladesh"
+    orcid: "https://orcid.org/0000-0001-5928-7577"
+  - family-names: Haydar
+    given-names: Mafrid
+    affiliation: "Department of Urban and Regional Planning, Khulna University of Engineering & Technology (KUET), Bangladesh"
+    orcid: "https://orcid.org/0009-0003-9229-0171"
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.23909628
+    description: "Dataset produced with this code (GWSA-PCDLSTM v1.0, Zenodo)"
+preferred-citation:
+  type: article
+  title: "Reconstruction of Global Groundwater Storage Anomaly from GRACE Satellite Gravimetry Using a Physics-Constrained Decomposition LSTM"
+  authors:
+    - family-names: Sarkar
+      given-names: Arpon
+    - family-names: Sarkar
+      given-names: Showmitra Kumar
+    - family-names: Haydar
+      given-names: Mafrid
+  year: 2026

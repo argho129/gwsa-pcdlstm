@@ -1,0 +1,49 @@
+"D:\Geospatial Matrix\Urban Expansion\Data\Venv_Python\Scripts\python.exe" "D:\THESIS\Arpon_Thesis_Final\Codes\Into the Models\6.1_Validation_3.py" 
+
+================================================================================
+PHASE 6.1 v3.4 FIXED -- PAPER-STYLE CONSISTENCY [SHAPEFILE Sy, >=6 OBS]
+================================================================================
+
+================================================================================
+LOAD product, polygons, and well attributes
+================================================================================
+
+================================================================================
+LOAD wells + assign Sy from geishuidu-min.shp (within -> 3-nearest median)
+================================================================================
+  [ OK ]   Sy shapefile: 1527 features, attribute 'specific_y'.
+  [ OK ]   Sy from shapefile ONLY: within=155143, nearest-3-median=15302, unresolved=0 (mean=0.1055, min=0.0100, max=0.1800)
+
+================================================================================
+STREAM GROW timeseries -> per-polygon monthly well series
+================================================================================
+  wells passing >= 6 observations: 149637 (was n>=3 in v3.3)
+Loading formatted geocoded file...
+
+================================================================================
+GENERATING NATURE-GRADE FIGURES (TIMES NEW ROMAN)...
+================================================================================
+  [ OK ]   fig_top10_basins_1to1
+  [ OK ]   fig_top10_aquifers_1to1
+  [ OK ]   fig_focus_hotspots_1to1
+  [ OK ]   fig_global_overview_map
+  [ OK ]   fig_global_top10_aquifers
+  [ OK ]   fig_global_top10_basins
+  [ OK ]   fig_zoomed_panels
+  [ OK ]   fig_taylor_diagram
+
+================================================================================
+ALL PROCESSES COMPLETED SUCCESSFULLY
+================================================================================
+
+=== FOCUS DEPLETION HOTSPOTS SUMMARY ===
+          hotspot       poly_id                         poly_name   pcc  n_wells  n_months
+       Bengal GBM HB_4030025460          Bhaisa, Telangana, India 0.761    12942        19
+     Punjab Indus HB_4030031750       Jaisalmer, Rajasthan, India 0.431     2866        19
+      High Plains HB_7030047060      Osceola, Iowa, United States 0.708    15102       249
+   Central Valley HB_7030008720 Alpine, California, United States 0.564    55414       249
+North China Plain HB_4030006940          Chenzhuang, Hebei, China 0.907      100         9
+
+Execution finished in 9.13 minutes.
+
+Process finished with exit code 0

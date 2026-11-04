@@ -1,0 +1,71 @@
+"D:\Geospatial Matrix\Urban Expansion\Data\Venv_Python\Scripts\python.exe" "D:\THESIS\Arpon_Thesis_Final\Codes\Into the Models\7.0 Uncertainty.py" 
+
+==============================================================================
+PHASE 7.0 -- UNCERTAINTY DECOMPOSITION
+==============================================================================
+Run date/time: 2026-08-07T17:44:58
+  excluded 2937 surface-water cells; kept 52427
+
+==============================================================================
+STEP 1 -- Observation Uncertainty Floor & Clean-up
+==============================================================================
+  gwsa_sigma > 0 median = 2.737 cm, floor(p25) = 1.779 cm applied to zeros
+
+==============================================================================
+STEP 2 -- Spatial Sampling: Empirical Variogram -> Correlation Length
+==============================================================================
+  Variogram range ~ 6.0 deg (~666 km); sill = 1.389
+  Correlation area ~ 144 cells (basin aggregation factor)
+
+==============================================================================
+STEP 3 -- Specific Yield Error per Cell
+==============================================================================
+  Cells with measured Sy (>=1 Class A well): 1459; else imputed error 0.4
+
+==============================================================================
+STEP 4 -- Vectorized Monte Carlo (N=200, Spatial Range=6.0 deg, Independent Months)
+==============================================================================
+    MC progress: 1/200 realizations done
+    MC progress: 50/200 realizations done
+    MC progress: 100/200 realizations done
+    MC progress: 150/200 realizations done
+    MC progress: 200/200 realizations done
+  Obs+Model trend sigma: median = 0.096 cm/yr
+
+==============================================================================
+STEP 5 -- Combine Component Variances -> Total Trend Sigma
+==============================================================================
+  TOTAL trend sigma: p25=0.118, median=0.173, p95=0.675 cm/yr
+  Mean variance fractions: Obs=0.030, Model=0.356, Sy=0.613
+    Dominant = Obs: 0 cells (0.0%)
+    Dominant = Model: 16966 cells (32.4%)
+    Dominant = Sy: 35461 cells (67.6%)
+
+==============================================================================
+STEP 6 -- SNR, Significance, and Tiering
+==============================================================================
+  Cells significant after full uncertainty (SNR >= 1.96): 31227 (59.6%)
+  Well-constrained cells (Tier 1): 1459 (2.8%); Physics-extrapolated (Tier 0): 50968
+  Median SNR: Well-constrained = 3.85, Extrapolated = 2.12
+
+==============================================================================
+STEP 7 -- Export NetCDF Output
+==============================================================================
+  [ OK ]   Successfully written: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\07_uncertainty\gwsa_uncertainty.nc
+
+==============================================================================
+STEP 8 -- Generating Figures
+==============================================================================
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\07_uncertainty\figures\fig7_01_uncertainty_maps.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\07_uncertainty\figures\fig7_01_uncertainty_maps.pdf
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\07_uncertainty\figures\fig7_02_components_breakdown_maps.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\07_uncertainty\figures\fig7_02_components_breakdown_maps.pdf
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\07_uncertainty\figures\fig7_03_components_and_tier_diagnostics.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\07_uncertainty\figures\fig7_03_components_and_tier_diagnostics.pdf
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\07_uncertainty\figures\fig7_04_spatial_variogram.png
+  saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\07_uncertainty\figures\fig7_04_spatial_variogram.pdf
+
+  Wall time: 10.82 min
+==============================================================================
+
+Process finished with exit code 0

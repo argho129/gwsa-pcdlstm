@@ -1,0 +1,146 @@
+"D:\Geospatial Matrix\Urban Expansion\Data\Venv_Python\Scripts\python.exe" "D:\THESIS\Arpon_Thesis_Final\Codes\Into the Models\13.0 Polar Motion_v2.py" 
+
+==============================================================================
+STEP 1 -- load Phase 8 product
+==============================================================================
+  variables: ['gwsa', 'gwsa_trend', 'trend_ci_lo', 'trend_ci_hi', 'trend_significant', 'sigma_total', 'sigma_obs', 'sigma_model', 'sigma_sy', 'frac_obs', 'frac_model', 'frac_sy', 'dominant', 'snr', 'significant_full', 'tier', 'hybas_l3', 'lat', 'lon']
+  valid cells        : 52427 / 55364
+  significant cells  : 39686 (75.7% of valid)
+  depleting cells    : 21632
+  implied land area  : 119.9 million km^2 (ice-free land ~130)
+  period             : 2002-04 to 2022-12 (249 months)
+
+==============================================================================
+STEP 2 -- volumes and sea-level equivalent (three masks, full period)
+==============================================================================
+  depletion_only     n= 21632  vol=  -357.64 km3/yr  |SLE|=0.9885 mm/yr  (formal sigma 11.60 km3/yr)
+  net_significant    n= 39686  vol=   -46.64 km3/yr  |SLE|=0.1289 mm/yr  (formal sigma 16.79 km3/yr)
+  net_all_valid      n= 52427  vol=   -36.25 km3/yr  |SLE|=0.1002 mm/yr  (formal sigma 17.82 km3/yr)
+
+==============================================================================
+STEP 3 -- secular pole drift from the trend field (full period)
+==============================================================================
+  depletion_only       6.2161 cm/yr toward   67.5 deg E (Seo separation 3.4 deg)
+  net_significant      6.9158 cm/yr toward   68.6 deg E (Seo separation 4.5 deg)
+  net_all_valid        6.9711 cm/yr toward   68.8 deg E (Seo separation 4.7 deg)
+
+  Seo et al. (2023): 4.36 cm/yr toward 64.16 deg E (126.5 km3/yr = 0.350 mm/yr SLE)
+  MASK ROBUSTNESS: depletion-only vs net-significant differ by 1.1 deg.
+
+==============================================================================
+STEP 4 -- month-by-month pole path simulation (full period)
+==============================================================================
+  simulated path drift : 6.9750 cm/yr toward 69.1 deg E
+  secular estimate     : 6.9158 cm/yr toward 68.6 deg E
+  agreement            : 0.86% rate, 0.50 deg azimuth
+  seasonal excursion   : 17.64 / 40.46 cm (1-sigma)
+  The seasonal excursion is the annual hydrological wobble, not a secular
+  signal. Report the fitted drift, not the excursion amplitude.
+
+==============================================================================
+STEP 4b -- GRACE-SeDA cross-check (overlap window, DIAGNOSTIC)
+==============================================================================
+  variables: ['mask', 'twsa', 'twsa_baseline', 'uncertainty']   dims: {'longitude': 720, 'latitude': 360, 'time': 180}
+  variable 'twsa', file units 'mm', factor 0.1 -> cm
+  time parsed as: Modified Julian Date
+  SeDA span 2002-04 to 2019-12 (180 records)
+  2 calendar month(s) hold more than one SeDA record; duplicates averaged
+  overlap 2002-04 to 2019-12 (178 months of 249 available in this study)
+  grid match: max offset 0.000 lat, 0.000 lon (expect <= 0.25)
+  subtracted OSA (time parsed as datetime64) -> SeDA-derived GWSA
+  year 2002 has only 7 months; excluded from the annual series
+  year 2017 has only 5 months; excluded from the annual series
+  year 2018 has only 5 months; excluded from the annual series
+  1 annual rate(s) span a gap and are divided by the years bridged: 2019 (3 yr)
+
+  ANNUAL TOTAL DEPLETION RATE over depleting cells (21632 cells)
+  year        this study        SeDA   difference   span
+  2004            -121.9         5.3       -127.3       
+  2005             258.3        67.6        190.7       
+  2006             290.4       169.3        121.1       
+  2007             321.4       138.0        183.4       
+  2008             478.3       461.4         17.0       
+  2009             349.6       312.5         37.0       
+  2010             457.7       410.5         47.3       
+  2011             371.1         2.6        368.5       
+  2012             384.4        66.1        318.4       
+  2013             350.1       344.6          5.6       
+  2014             542.1       396.2        145.9       
+  2015             234.0       111.9        122.1       
+  2016             434.3       273.3        160.9       
+  2019             368.4       245.0        123.4   3 yr
+  ------------------------------------------------------
+  mean             337.0       214.6        122.4
+  trend            368.1       232.9        135.1          <-- quote THIS row
+  The 'trend' row is a regression on the storage curve and is immune to
+  the gap issue; the year rows show interannual behaviour.
+  Ratio this study / SeDA = 1.58. A value above 1 is the expected
+  consequence of the Phase 5.2 variance matching, which restores amplitude
+  that GRACE-derived products damp; state it as such rather than as an error.
+  annual storage correlation      r = +0.996
+  annual depletion-rate correlation r = +0.670
+
+  CELL-WISE TREND AGREEMENT over 39438 significant cells:
+     r = +0.441   bias (mine-SeDA) = +0.0593 cm/yr
+     RMSD = 1.5821 cm/yr   sign agreement = 80.8%
+
+  CAVEAT FOR THE TEXT: this study's OSA is removed from SeDA as well,
+  so the comparison isolates the TWSA component and is not a fully
+  independent test of the groundwater partitioning.
+
+==============================================================================
+STEP 4c -- FINAL ESTIMATE, FULL PERIOD 2002-04 to 2022-12
+==============================================================================
+  This is the reported result. STEP 4b used a shorter window purely so the
+  two products could be compared like for like; those numbers are
+  diagnostic and must not be quoted as the estimate.
+
+  quantity                                       value
+  ----------------------------------------------------
+  period                              2002-04 to 2022-12
+  months                                           249
+  cells (valid / significant)            52427 / 39686
+  gross depletion (km3/yr)                      357.64
+  gross depletion SLE (mm/yr)                   0.9885
+  net significant (km3/yr)                       46.64
+  net significant SLE (mm/yr)                   0.1289
+  pole drift rate (cm/yr)                       6.9158
+  pole drift azimuth (deg E)                     68.62
+  separation from Seo et al. (deg)                4.46
+  mask spread (deg)                               1.11
+  path-vs-secular azimuth (deg)                   0.50
+  path-vs-secular rate (%)                        0.86
+
+  WINDOW SENSITIVITY of this study's own result (net_significant):
+    full 2002-04..2022-12: 6.916 cm/yr @ 68.62 deg E
+    SeDA 2002-04..2019-12: 8.145 cm/yr @ 67.97 deg E  (shift 0.65 deg)
+    A small shift means the reported azimuth is not an artefact of the
+    period chosen.
+
+==============================================================================
+STEP 5 -- figures
+==============================================================================
+  fig_style: loaded; typography enforced
+'created' timestamp seems very low; regarding as unix timestamp
+'modified' timestamp seems very low; regarding as unix timestamp
+  [ OK ] fig13_1_physics_and_azimuth
+  [ OK ] fig13_2_pole_path_simulation
+  [ OK ] fig13_3_excitation_sources
+  [ OK ] fig13_4_sea_level
+  [ OK ] fig13_5_mask_sensitivity
+  [ OK ] fig13_6_seda_annual_comparison
+
+==============================================================================
+STEP 6 -- write summary
+==============================================================================
+  wrote D:\THESIS\Arpon_Thesis_Final\OUTPUTS\13_polar_motion\polar_motion_summary.json
+  wrote D:\THESIS\Arpon_Thesis_Final\OUTPUTS\13_polar_motion\pole_path_monthly.csv
+  wrote D:\THESIS\Arpon_Thesis_Final\OUTPUTS\13_polar_motion\seda_annual_comparison.csv
+  wrote D:\THESIS\Arpon_Thesis_Final\OUTPUTS\13_polar_motion\seda_cellwise_trends.csv
+
+==============================================================================
+Final estimate: see STEP 4c and polar_motion_summary.json.
+STEP 4b is a matched-window diagnostic; the reported estimate is STEP 4c.
+==============================================================================
+
+Process finished with exit code 0

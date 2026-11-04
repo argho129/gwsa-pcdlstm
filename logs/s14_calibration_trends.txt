@@ -1,0 +1,86 @@
+"D:\Geospatial Matrix\Urban Expansion\Data\Venv_Python\Scripts\python.exe" "D:\THESIS\Arpon_Thesis_Final\Codes\Into the Models\5.2 Bias_Correction.py" 
+==============================================================================
+PHASE 5.2 -- BIAS CORRECTION + FINAL CALIBRATED PRODUCT
+run: 2026-08-07T03:15:40
+==============================================================================
+
+==============================================================================
+STEP 1 -- load reconstruction + tensor
+==============================================================================
+  excluded 2937 surface-water cells; kept 52427
+  cells=55364 kept=52427 months=249
+  reconstruction W_BASIN=0.5 heldout_nse=0.6091779470443726
+
+==============================================================================
+STEP 2 -- diagnose amplitude bias (uniform vs regional)
+==============================================================================
+  cells with >= 24 obs: 52427
+  std ratio recon/obs: p25=0.59 median=0.77 p75=0.98
+  -> bias is fairly UNIFORM; per-cell matching still applied (safe).
+
+==============================================================================
+STEP 3 -- per-cell variance-matching correction (fit on observed only)
+==============================================================================
+  per-cell corrections: 52427  global-fallback: 0
+  of global-fallback cells, 0 have <12 obs (intercept unstable; flagged)
+  correction slope a: median=1.30 (a<1 shrinks inflated amplitude, a>1 expands deflated amplitude)
+
+==============================================================================
+STEP 4 -- re-evaluate held-out skill AFTER correction
+==============================================================================
+  held-out GRACE months:
+  [before] RMSE=7.886 NSE=+0.609 KGE=-0.763 (r=+0.78 beta=-0.74 gamma=+0.78)
+  [after ] RMSE=6.973 NSE=+0.694 KGE=+0.604 (r=+0.85 beta=+1.36 gamma=+0.99)
+
+  [ OK ]   KGE improved -0.763 -> +0.604; gamma (variance match) 0.78 -> 0.99, r=+0.85
+
+==============================================================================
+STEP 4b -- CALIBRATION SENSITIVITY & EXPLICIT TREND DIAGNOSTICS
+==============================================================================
+  MIN_OBS  per-cell  KGE      beta    gamma   trend r vs raw
+  12       52427     +0.809   1.12    0.99    0.924         
+  18       52427     +0.809   1.12    0.99    0.924         
+  24       52427     +0.809   1.12    0.99    0.924         
+  36       52427     +0.809   1.12    0.99    0.924         
+  48       52427     +0.809   1.12    0.99    0.924         
+
+  Running full trend-preservation diagnostics across all kept cells...
+  cells compared                    : 52427
+  trend SIGN preserved              : 100.00%
+  pattern correlation (magnitude)   : 0.9184
+  sign preserved for |raw trend|>0.5: 100.00%
+  [ OK ]   Trend directional signs are 100% PRESERVED across all cells.
+
+==============================================================================
+STEP 5 -- final trend field (Theil-Sen) + bootstrap CI
+==============================================================================
+  Theil-Sen slope per cell, 200x block bootstrap CI...
+     5000 cells...
+     10000 cells...
+     15000 cells...
+     20000 cells...
+     25000 cells...
+     30000 cells...
+     35000 cells...
+     40000 cells...
+     45000 cells...
+     50000 cells...
+  trends computed: 52427
+  cells with CI excluding zero (significant): 39686
+  global trend range: -2.28 .. 1.60 cm/yr
+
+
+==============================================================================
+STEP 6 -- write FINAL product
+==============================================================================
+  [ OK ]   written: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\05_model_tensor\gwsa_final.nc (136 MB)
+  [ OK ]   fig5_2_calibration
+  [ OK ]   fig5_2_final_trend_map
+  [ OK ]   fig5_2_significance_provenance
+
+  wall time: 250.2 min
+==============================================================================
+Run complete.
+==============================================================================
+
+Process finished with exit code 0

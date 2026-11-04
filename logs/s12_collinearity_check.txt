@@ -1,0 +1,33 @@
+"D:\Geospatial Matrix\Urban Expansion\Data\Venv_Python\Scripts\python.exe" "D:\THESIS\Arpon_Thesis_Final\Codes\Into the Models\3a_Collinearity_Check.py" 
+============================================================
+STATIC VIF (spatial multicollinearity)
+============================================================
+      predictor      VIF
+            lon 2.231998
+            lat 2.227888
+            aei 1.850646
+      logk_ferr 1.636403
+       porosity 1.598024
+      elevation 1.548393
+          aeigw 1.430041
+          slope 1.413173
+urban_frac_mean 1.063183
+
+  rule: <5 keep | 5-10 flag/justify | >10 drop or merge
+
+============================================================
+DYNAMIC correlation (temporal, cell-averaged)
+============================================================
+         P     E     R   t2m  ndvi    sm
+P     1.00  0.40  0.70  0.27  0.32  0.53
+E     0.40  1.00  0.24  0.78  0.63 -0.05
+R     0.70  0.24  1.00  0.13  0.20  0.45
+t2m   0.27  0.78  0.13  1.00  0.53 -0.31
+ndvi  0.32  0.63  0.20  0.53  1.00 -0.08
+sm    0.53 -0.05  0.45 -0.31 -0.08  1.00
+
+  rule: |r|>0.9 (avg) -> drop one
+
+saved: D:\THESIS\Arpon_Thesis_Final\OUTPUTS\10_model\figures\collinearity_prototype.png
+
+Process finished with exit code 0

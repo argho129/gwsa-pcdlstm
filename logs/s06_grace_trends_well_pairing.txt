@@ -1,0 +1,90 @@
+"D:\Geospatial Matrix\Urban Expansion\Data\Venv_Python\Scripts\python.exe" "D:\THESIS\Arpon_Thesis_Final\Codes\2.2 GRACE CELL TRENDS + WELL-TO-CELL PAIRING.py" 
+==============================================================================
+PHASE 2.2 -- GRACE CELL TRENDS + WELL PAIRING
+==============================================================================
+
+==============================================================================
+STEP 1 -- Theil-Sen trend per cell on monthly GWSA
+==============================================================================
+  domain cells: 56,000   with >= 60 months: 55,364
+     10,000 / 55,364 cells
+     20,000 / 55,364 cells
+     30,000 / 55,364 cells
+     40,000 / 55,364 cells
+     50,000 / 55,364 cells
+  [ OK ]   GRACE Theil-Sen trends computed for 55,364 cells
+  trend stats (cm/yr): min=-8.901 p1=-3.774 p50=0.021 p99=2.091 max=8.155
+  fraction of cells with NEGATIVE trend: 48.3%
+  hotspot check (Theil-Sen):
+     NW India       : -5.662 cm/yr  (expect NEG)
+     N China Plain  : -1.451 cm/yr  (expect NEG)
+     Arabia         : -0.893 cm/yr  (expect NEG)
+     Amazon         : +1.844 cm/yr  (expect POS/~0)
+
+==============================================================================
+STEP 2 -- match wells individually to 0.5deg cells
+==============================================================================
+  wells loaded: 79,441
+  with valid coords + storage trend: 79,441
+  wells inside grid: 79,441
+  wells inside analysis domain: 68,728 (86.5%)
+  wells OUTSIDE domain (ocean-masked / ice / beyond GRACE): 10,713
+  [ OK ]   cells containing >=1 well: 4,263
+  well-count per cell: p50=5 p90=29 max=3246
+     cells with >=   1 wells: 4,263
+     cells with >=   2 wells: 3,313
+     cells with >=   3 wells: 2,796
+     cells with >=   5 wells: 2,187
+     cells with >=  10 wells: 1,446
+     cells with >=  25 wells: 530
+     cells with >=  50 wells: 208
+
+==============================================================================
+STEP 3 -- paired dataset + GRACE-vs-well correlation
+==============================================================================
+  [ OK ]   PAIRED cells (GRACE trend AND >=1 well): 4,261
+  as % of domain cells with a GRACE trend: 7.70%
+
+  --- correlation of GRACE vs well trends (the QM assumption) ---
+     >=   1 wells/cell: n= 4,261  Pearson r=+0.251  Spearman=+0.231  sign agreement=60.1%
+     >=   3 wells/cell: n= 2,795  Pearson r=+0.302  Spearman=+0.267  sign agreement=61.3%
+     >=   5 wells/cell: n= 2,187  Pearson r=+0.348  Spearman=+0.297  sign agreement=62.6%
+     >=  10 wells/cell: n= 1,446  Pearson r=+0.392  Spearman=+0.347  sign agreement=64.0%
+     >=  25 wells/cell: n=   530  Pearson r=+0.385  Spearman=+0.399  sign agreement=63.2%
+  r rising with wells/cell = point-vs-footprint noise, as expected.
+  If r stays ~0 at all thresholds, quantile mapping is NOT well founded.
+
+  --- magnitude comparison ---
+     GRACE : p1=-5.786 p50=+0.053 p99=+1.783  sd=1.155
+     wells : p1=-9.732 p50=-0.003 p99=+4.930  sd=2.313
+  wells typically show LARGER spread than GRACE (mascon smoothing).
+
+  --- geographic spread of paired cells ---
+     N America :  1,923 paired cells  ( 45.1%)
+     S America :     48 paired cells  (  1.1%)
+     Europe    :    676 paired cells  ( 15.9%)
+     Africa    :    116 paired cells  (  2.7%)
+     S Asia    :  1,021 paired cells  ( 24.0%)
+     E Asia    :     42 paired cells  (  1.0%)
+     Australia :    366 paired cells  (  8.6%)
+     Rest      :  4,261 paired cells  
+
+==============================================================================
+STEP 5 -- write
+==============================================================================
+  [ OK ]   paired_cells.parquet  rows=4,261
+  [ OK ]   grace_cell_trends.nc
+
+==============================================================================
+STEP 4 -- figures (full global extent)
+==============================================================================
+  [ OK ]   fig5
+  [ OK ]   fig6
+  [ OK ]   fig7
+
+==============================================================================
+KEY NUMBERS: paired cell count, and GRACE-vs-well correlation by density.
+These determine whether quantile mapping is well founded.
+==============================================================================
+
+Process finished with exit code 0

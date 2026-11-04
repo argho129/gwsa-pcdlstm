@@ -1,0 +1,16 @@
+"D:\Geospatial Matrix\Urban Expansion\Data\Venv_Python\Scripts\python.exe" "D:\THESIS\Arpon_Thesis_Final\Codes\0.5b -- PERSIST SURFACE-WATER FLAG INTO THE RELIABILITY MASK.py" 
+
+==============================================================================
+PHASE 0.5b -- persist surface-water flag
+==============================================================================
+  mask variables present: ['permanent_ice', 'swe_mask', 'rgi_glacier', 'icesheet', 'land', 'exclude_tier1']
+  grid check OK: 360 x 720
+  surface-water cells rasterized: 3,284
+  overlap water & permanent_ice: 50 (1.52% of water cells)
+  backup written: reliability_mask_backup_20260725_150547.nc
+  [ OK ]   surface_water persisted into reliability_mask.nc
+  verified: surface_water reads back with 3,284 cells
+
+  Downstream scripts should now read reliability_mask.nc['surface_water'] instead of rasterizing the shapefile inline.
+
+Process finished with exit code 0
